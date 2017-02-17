@@ -1,0 +1,5 @@
+---
+applications:
+- name: py_react
+  buildpack: python_buildpack
+  command: python app/app.py

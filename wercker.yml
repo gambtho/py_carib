@@ -1,0 +1,44 @@
+box: python:2.7
+
+build:
+  steps:
+    - virtualenv:
+        name: setup virtual environment
+        install_wheel: false 
+    - pip-install
+    - script:
+        name: test python code 
+        code: |
+          echo "python version $(python --version) running"
+          echo "pip version $(pip --version) running"
+          python app/test_app.py
+
+js:
+  box: node
+  steps:
+    - npm-install:
+        cwd: app/js
+    - npm-test:
+        cwd: app/js
+    - script:
+        cwd: app/js
+        name: build js bundle
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
+          npm run build
+
+deploy:
+  steps:
+    - dlapiduz/cloud-foundry-deploy:
+      api: $CF_API 
+      username: $CF_USER
+      password: $CF_PASS
+      organization: $CF_ORG
+      space: $CF_SPACE
+      appname: py_react
+    - script:
+           name: smoke script
+           code: |
+             curl -v -i py_react.cfapps.io/hi | grep 'Hola Mundo!'
+

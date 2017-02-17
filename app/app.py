@@ -3,7 +3,8 @@ import json
 from flask import Flask, jsonify, render_template
 from apiclient.discovery import build
 
-app = Flask(__name__, template_folder='js/build', static_folder='js/build/static')
+app = Flask(__name__, template_folder='js/build',
+            static_folder='js/build/static')
 
 service = build("customsearch", "v1", developerKey=os.getenv('GOOGLE_KEY'))
 
@@ -12,7 +13,7 @@ def index():
     return render_template('index.html')
 @app.route('/hola')
 def hola():
-    return 'Hola!'
+    return 'Hola Mundo!'
 @app.route('/api/')
 def api():
     res = service.cse().list(
@@ -27,7 +28,7 @@ def api():
     print json.dumps(res, sort_keys=True, indent=4)
     return jsonify(res)
 
-port = os.getenv('VCAP_APP_PORT', '5000')
+port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(port))
 

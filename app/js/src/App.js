@@ -12,12 +12,11 @@ const carousel = (images) => {
   if(images.length > 0) {
     return ( 
       <Slider {...settings}>
-        {images.map(image => <div><img className="App-slider-image" src={image} /></div>)}
+        {images.map(image => <div><img alt="snake" className="App-slider-image" src={image} /></div>)}
       </Slider>
     )
   }
 }
-
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +30,6 @@ class App extends Component {
 
   callAPI() {
     return fetch('/api').then(response => response.json().then(json => {
-      console.log(json.items);
       const images = json.items.map(item => ( item.link ));
       this.setState({ images });
     }));
