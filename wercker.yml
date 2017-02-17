@@ -40,5 +40,5 @@ deploy:
     - script:
            name: smoke script
            code: |
-             curl -v -i http://py_react.cfapps.io/hola | grep 'Hola Mundo!'
+             curl -v -i http://py-react.cfapps.io/hola | grep 'Hola Mundo!'
 
